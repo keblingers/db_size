@@ -6,8 +6,7 @@ import pandas as pd
 from pathlib import Path
 
 def get_variables(by_type):
-    env_path = Path('C:\\Users\\FATAH\\Documents\\REPO\\PROJECT\\env_file\\get_size.env')
-    load_dotenv(dotenv_path=env_path)
+    load_dotenv()
     username = os.environ['USER'].split(",")
     passwd = os.environ['PASSWD'].split(",")
     database = os.environ['DATABASE'].split(",")
