@@ -49,8 +49,7 @@ def put_size(type_input,mon_db):
 
 
 if __name__ == '__main__':
-    env_path = Path('C:\\Users\\FATAH\\Documents\\REPO\\PROJECT\\env_file\\get_size.env')
-    load_dotenv(dotenv_path=env_path)
+    load_dotenv()
     db_type = os.environ['DB_TYPE'].split(",")
     mon_db = os.environ['MON_DB']
     for x in db_type:
