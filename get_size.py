@@ -26,31 +26,38 @@ def get_size(db_type):
     
     try:
         data = pd.read_sql(sql,conn)
-        data['created_date']= now
-        data['updated_date']= now
-        data['database_size_type'] = db_type
+        data['database_type'] = db_type
+        reposition = data[["database_size_name","database_type","database_size_mb"]]
         #print(data)
     except Exception as error:
         print(error)
     else:
-        return data
+        return reposition
     conn.close()
 
 
-def put_size(type_input,mon_db):
-    table_name = 'database_size'
-    conn = connect.sqlalchemy_conn(mon_db)
-
+#def put_size(type_input,mon_db):
+def put_size(type_input):
+    today = datetime.today().strftime("%d/%m/%Y")
     for x in type_input:
-        print(x)
         data = get_size(x)
-        print(data)
-        put_data = data.to_sql(table_name, conn, if_exists='append',index=False)
+        data.rename(columns={'database_size_mb': today}, inplace=True)
+        data.loc['Total'] = pd.Series(data[today].sum(), index=[today])
+        #print(data)
+        export_data = data.to_excel("test.xlsx")
+    # table_name = 'database_size'
+    # conn = connect.sqlalchemy_conn(mon_db)
+
+    # for x in type_input:
+    #     print(x)
+    #     data = get_size(x)
+    #     print(data)
+    #     put_data = data.to_sql(table_name, conn, if_exists='append',index=False)
 
 
 if __name__ == '__main__':
     load_dotenv()
     db_type = os.environ['DB_TYPE'].split(",")
-    mon_db = os.environ['MON_DB']
+    #mon_db = os.environ['MON_DB']
     for x in db_type:
-        put_size([x],[mon_db])
+        put_size([x])
