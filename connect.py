@@ -7,7 +7,7 @@ from pathlib import Path
 
 def get_variables(by_type):
     load_dotenv()
-    username = os.environ['USER'].split(",")
+    username = os.environ['UNAME'].split(",")
     passwd = os.environ['PASSWD'].split(",")
     database = os.environ['DATABASE'].split(",")
     host = os.environ['HOST'].split(",")
